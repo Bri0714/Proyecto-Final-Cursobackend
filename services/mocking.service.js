@@ -10,11 +10,11 @@ export const getMockingService = async (
   try {
     const filter = query
       ? {
-          $or: [
-            { title: { $regex: query, $options: "i" } },
-            { category: { $regex: query, $options: "i" } },
-          ],
-        }
+        $or: [
+          { title: { $regex: query, $options: "i" } },
+          { category: { $regex: query, $options: "i" } },
+        ],
+      }
       : {};
 
     const options = {
@@ -30,5 +30,6 @@ export const getMockingService = async (
     logger.error(`
       An error occurred when obtaining the mocking products.
       ${err.stack}  
-    `)}
+    `)
+  }
 };
