@@ -9,15 +9,17 @@ import Cart from "../dao/models/cart.model.js";
 
 const LocalStrategy = local.Strategy;
 
+// Función para verificar si existe un administrador registrado
 const Admin = async () => {
   const existingAdmin = await UserModel.findOne({ email: ADMIN_EMAIL });
 
   if (!existingAdmin) {
-    console.log("No registered admin users");
+    console.log("No hay usuarios administradores registrados");
   }
 };
 
 const initializePassport = () => {
+  // Estrategia de registro local
   passport.use(
     "register",
     new LocalStrategy(
@@ -31,7 +33,7 @@ const initializePassport = () => {
           const user = await UserModel.findOne({ email: username });
 
           if (user) {
-            console.log("User already exists");
+            console.log("El usuario ya existe");
             return done(null, false);
           }
 
@@ -52,13 +54,13 @@ const initializePassport = () => {
           Admin();
           return done(null, result);
         } catch (err) {
-          return done("Password error " + err);
+          return done("Error en la contraseña " + err);
         }
       }
     )
   );
 
-  // configuramos
+  // Estrategia de inicio de sesión con GitHub
   passport.use(
     "github",
     new GitHubStrategy(
@@ -67,7 +69,7 @@ const initializePassport = () => {
         clientSecret: CLIENT_SECRET,
         callbackURL: "http://localhost:8080/api/session/githubcallback",
       },
-      async (accessToke, refreshToken, profile, done) => {
+      async (accessToken, refreshToken, profile, done) => {
         console.log(profile);
 
         try {
@@ -83,7 +85,7 @@ const initializePassport = () => {
 
           return done(null, newUser);
         } catch (err) {
-          return done("Error to login with GitHub " + err);
+          return done("Error al iniciar sesión con GitHub " + err);
         }
 
         done(null, profile);
@@ -91,6 +93,7 @@ const initializePassport = () => {
     )
   );
 
+  // Estrategia de inicio de sesión local
   passport.use(
     "login",
     new LocalStrategy(
@@ -101,7 +104,7 @@ const initializePassport = () => {
         try {
           const user = await UserModel.findOne({ email: username });
           if (!user) {
-            console.log("The user entered does not exist");
+            console.log("El usuario ingresado no existe");
             return done(null, false);
           }
 
@@ -117,6 +120,7 @@ const initializePassport = () => {
     )
   );
 
+  // Serialización y deserialización de usuario para almacenar en sesión
   passport.serializeUser((user, done) => {
     return done(null, user._id);
   });

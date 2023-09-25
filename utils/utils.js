@@ -5,21 +5,27 @@ import { faker } from "@faker-js/faker";
 import { createProductsDB } from "./createProducts.DB.js";
 import logger from "./logger.js";
 
+// Función para crear un hash de contraseña
 export const createHash = (password) => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 };
 
+// Función para validar una contraseña
 export const isValidPassword = (user, password) => {
   return bcrypt.compareSync(password, user.password);
 };
 
+// Función para generar productos ficticios en la colección "MockingModel"
 export const generateProductsMocking = async () => {
   try {
-    const existMocking = await MockingModel.countDocuments().maxTimeMS(30000); // Aumenta el tiempo de espera a 60 segundos
+    // Comprueba si existen documentos en la colección "MockingModel" con un tiempo máximo de espera de 60 segundos
+    const existMocking = await MockingModel.countDocuments().maxTimeMS(60000);
 
+    // Si no existen documentos en la colección
     if (!existMocking) {
       const mockingData = [];
 
+      // Genera datos ficticios para 100 productos
       for (let i = 0; i < 100; i++) {
         mockingData.push({
           title: faker.commerce.productName(),
@@ -33,28 +39,33 @@ export const generateProductsMocking = async () => {
         });
       }
 
+      // Inserta los datos ficticios en la colección "MockingModel"
       await MockingModel.insertMany(mockingData);
 
-      logger.info("Generating products mocking");
+      logger.info("Generando productos ficticios (mocking)");
     }
   } catch (error) {
-    logger.error("Error generating mocking products: " + error.message);
+    logger.error("Error al generar productos ficticios (mocking): " + error.message);
   }
 };
 
+// Función para generar productos ficticios en la colección "productModel"
 export const generateProducts = async () => {
   try {
-    const existProducts = await productModel.countDocuments().maxTimeMS(30000);
+    // Comprueba si existen documentos en la colección "productModel" con un tiempo máximo de espera de 60 segundos
+    const existProducts = await productModel.countDocuments().maxTimeMS(60000);
 
+    // Si no existen documentos en la colección
     if (!existProducts) {
-      logger.info("Generating products");
-      createProductsDB();
+      logger.info("Generando productos ficticios");
+      createProductsDB(); // Llama a una función para crear productos ficticios en la base de datos
     }
   } catch (error) {
-    logger.error("Error generating products: " + error.message);
+    logger.error("Error al generar productos ficticios: " + error.message);
   }
 };
 
+// Función para generar una cadena aleatoria de caracteres
 export const generateRandomString = (num) => {
   return [...Array(num)]
     .map(() => {
