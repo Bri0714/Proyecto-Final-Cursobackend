@@ -8,7 +8,6 @@ import passport from "passport";
 import { fileURLToPath } from "url";
 import swaggerJSDoc from "swagger-jsdoc";
 import SwaggerUiExpress from "swagger-ui-express";
-
 import productsRouter from "./routers/products.router.js";
 import cartsRouter from "./routers/carts.router.js";
 import sessionRouter from "./routers/session.router.js";

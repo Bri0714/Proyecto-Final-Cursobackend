@@ -10,7 +10,6 @@ const custom = {
     http: 4,
     debug: 5,
   },
-
   colors: {
     debug: "blue",
     http: "green",

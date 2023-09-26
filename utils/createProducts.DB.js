@@ -72,3 +72,6 @@ export const createProductsDB = async () => {
     ]);
   }
 };
+
+//llamar la funcion 
+createProductsDB();
