@@ -2,7 +2,7 @@
 
 # Documentación de la Aplicación - Proyecto Final
 
-Este Docuemnto contiene el código fuente de la aplicación Proyecto Final. La aplicación utiliza Node.js y Express.js para crear una plataforma de E-commerce. A continuación, se describen las principales rutas y funcionalidades de la aplicación.
+Este Documento contiene el código fuente de la aplicación Proyecto Final. La aplicación utiliza Node.js y Express.js para crear una plataforma de E-commerce. A continuación, se describen las principales rutas y funcionalidades de la aplicación.
 
 ## Rutas y Funcionalidades
 
